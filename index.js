@@ -1,3 +1,5 @@
+
+
 // let x=[1,2,3,4,5,6]
 // function minmax(array) {
 //     let answer=[];
@@ -159,16 +161,28 @@
 
 
 
+const fetch = require('node-fetch');
+const http = require('http');
 const fs = require('fs');
 
-const http = require('http');
 
-const requestListener = function (req, res) {
-  res.writeHead(200);
-  res.end('Hello, App');
+// fetch('https://jsonplaceholder.typicode.com/posts/1/comments')
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+let commentarray = [];
+for(let i=1; i<=2; i++) {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${i}/comments`)
+    .then((res)=> {
+       return res.json();
+    })
+    .then( (data)=> {
+        commentarray.push(JSON.stringify(data[0]))
+        console.log(data[0]);
+        fs.writeFileSync(`${data[0].postId}+${data[0].id}.txt`, `${JSON.stringify(data[0])}` , (err)=> {
+            console.log("done")
+        })
+
+
+
+    })
 }
-
-const server = http.createServer(requestListener);
-server.listen(8080);
-
-
