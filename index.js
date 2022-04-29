@@ -161,21 +161,20 @@
 
 
 
-const fetch = require('node-fetch');
-const http = require('http');
-const fs = require('fs');
 
 
 
-let commentarray = [];
-for(let i=1; i<=2; i++) {
+import fetch from 'node-fetch';
+import fs from 'fs';
+
+for(let i=1; i<=3; i++) {
     fetch(`https://jsonplaceholder.typicode.com/posts/${i}/comments`)
     .then((res)=> {
        return res.json();
     })
     .then( (data)=> {
-        commentarray.push(JSON.stringify(data[0]))
-        console.log(data[0]);
+      
+        // console.log(data[0]);
         fs.writeFileSync(`${data[0].postId}+${data[0].id}.txt`, `${JSON.stringify(data[0])}` , (err)=> {
             console.log("done")
         })
